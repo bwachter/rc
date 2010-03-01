@@ -18,6 +18,7 @@ extern void varassign(char *name, List *def, bool stack) {
 	new = get_var_place(name, stack);
 	new->def = newdef;
 	new->extdef = NULL;
+	set_exportable(name, TRUE);
 #if READLINE
 	if (interactive && (streq(name, "TERM") || streq(name, "TERMCAP")))
 		rl_reset_terminal(NULL);
@@ -61,10 +62,10 @@ extern List *varlookup(char *name) {
 	Variable *look;
 	List *ret, *l;
 	int sub;
-	if (streq(name, "status"))
-		return sgetstatus();
 	if (streq(name, "apids"))
 		return sgetapids();
+	if (streq(name, "status"))
+		return sgetstatus();
 	if (*name != '\0' && (sub = a2u(name)) != -1) { /* handle $1, $2, etc. */
 		for (l = varlookup("*"); l != NULL && sub != 0; --sub)
 			l = l->n;
@@ -102,7 +103,7 @@ extern char *varlookup_string(char *name) {
 		return look->extdef;
 	if (look->def == NULL)
 		return NULL;
-	return look->extdef = mprint("%F=%-L", name, look->def, "\001");
+	return look->extdef = mprint("%F=%W", name, look->def);
 }
 
 /* remove a variable from the symtab. "stack" determines whether a level of scoping is popped or not */

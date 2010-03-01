@@ -14,20 +14,6 @@ int main(void) {
 ])
 
 
-dnl Check for va_copy() in <stdarg.h>.  This is new in C 9x.
-AC_DEFUN(RC_HAVE_VA_COPY, [
-	AC_CACHE_CHECK(for va_copy(), rc_cv_have_va_copy, AC_EGREP_CPP(yes, [
-#include <stdarg.h>
-#ifdef va_copy
-yes
-#endif
-], rc_cv_have_va_copy=yes, rc_cv_have_va_copy=no))
-	case "$rc_cv_have_va_copy" in
-	yes) AC_DEFINE(HAVE_VA_COPY) ;;
-	esac
-])
-
-
 dnl We can't use AC_CHECK_FUNCS for sigsetjmp(), since it's a macro in
 dnl some places.
 AC_DEFUN(RC_FUNC_SIGSETJMP, [
@@ -40,6 +26,19 @@ sigsetjmp(e, 1);
 		], rc_cv_sigsetjmp=yes, rc_cv_sigsetjmp=no))
 	case "$rc_cv_sigsetjmp" in
 	yes)	AC_DEFINE(HAVE_SIGSETJMP) ;;
+	esac
+])
+
+dnl Similarly, AC_CHECK_FUNCS doesn't find strerror() on NetBSD.
+AC_DEFUN(RC_FUNC_STRERROR, [
+	AC_CACHE_CHECK(for strerror, rc_cv_strerror,
+		AC_TRY_LINK([
+#include <string.h>
+		], [
+strerror(0);
+		], rc_cv_strerror=yes, rc_cv_strerror=no))
+	case "$rc_cv_strerror" in
+	yes)	AC_DEFINE(HAVE_STRERROR) ;;
 	esac
 ])
 

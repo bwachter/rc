@@ -1,8 +1,10 @@
 /* utils.c: functions of general utility */
 
+#include "rc.h"
+
 #include <errno.h>
 #include <setjmp.h>
-#include "rc.h"
+
 #include "jbwrap.h"
 
 /* print error with line number on noninteractive shells (i.e., scripts) */
@@ -19,14 +21,15 @@ extern void pr_error(char *s, int offset) {
 /* our perror */
 
 extern void uerror(char *s) {
-	extern int sys_nerr;
-	extern char *sys_errlist[];
-	if (errno > sys_nerr)
-		return;
-	if (s != NULL)
-		fprint(2, "%s: %s\n", s, sys_errlist[errno]);
+	char *err;
+
+	err = strerror(errno);
+	if (!err) err = "unknown error";
+
+	if (s)
+		fprint(2, "%s: %s\n", s, err);
 	else
-		fprint(2, "%s\n", sys_errlist[errno]);
+		fprint(2, "%s\n", err);
 }
 
 /* Die horribly. This should never get called. Please let me know if it does. */
@@ -56,7 +59,7 @@ extern int n2u(char *s, unsigned int base) {
 /* The last word in portable ANSI: a strcmp wrapper for qsort */
 
 extern int starstrcmp(const void *s1, const void *s2) {
-	return strcmp(*(char **)s1, *(char **)s2);
+	return strcmp(*(char * const *)s1, *(char * const *)s2);
 }
 
 /* tests to see if pathname begins with "/", "./", or "../" */

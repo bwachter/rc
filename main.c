@@ -2,7 +2,7 @@
 
 #include "rc.h"
 
-bool dashdee, dashee, dashvee, dashex, dashell, dasheye,
+bool dashdee, dashee, dashvee, dashex, dashell, dashEYE, dasheye,
 	dashen, dashpee, dashess, interactive;
 pid_t rc_pid;
 
@@ -10,8 +10,6 @@ static bool dashoh;
 
 static void assigndefault(char *,...);
 static void checkfd(int, enum redirtype);
-
-static const char id[] = "$Release: @(#)" PACKAGE " " VERSION " " RELDATE " $";
 
 extern int main(int argc, char *argv[], char *envp[]) {
 	char *dashsee[2], *dollarzero, *null[1];
@@ -21,7 +19,7 @@ extern int main(int argc, char *argv[], char *envp[]) {
 	dollarzero = argv[0];
 	rc_pid = getpid();
 	dashell = (*argv[0] == '-'); /* Unix tradition */
-	while ((c = rc_getopt(argc, argv, "c:deilnopsVvx")) != -1)
+	while ((c = rc_getopt(argc, argv, "c:deiIlnopsvx")) != -1)
 		switch (c) {
 		case 'c':
 			dashsee[0] = rc_optarg;
@@ -31,6 +29,10 @@ extern int main(int argc, char *argv[], char *envp[]) {
 			break;
 		case 'e':
 			dashee = TRUE;
+			break;
+		case 'I':
+			dashEYE = TRUE;
+			interactive = FALSE;
 			break;
 		case 'i':
 			dasheye = interactive = TRUE;
@@ -50,9 +52,6 @@ extern int main(int argc, char *argv[], char *envp[]) {
 		case 's':
 			dashess = TRUE;
 			break;
-		case 'V':
-			fprint(1, "%s\n", id);
-			exit(0);
 		case 'v':
 			dashvee = TRUE;
 			break;
@@ -64,8 +63,8 @@ extern int main(int argc, char *argv[], char *envp[]) {
 		}
 quitopts:
 	argv += rc_optind;
-	/* use isatty() iff -i is not set, and iff the input is not from a script or -c flags */
-	if (!dasheye && dashsee[0] == NULL && (dashess || *argv == NULL))
+	/* use isatty() iff neither -i nor -I is set, and iff the input is not from a script or -c flags */
+	if (!dasheye && !dashEYE && dashsee[0] == NULL && (dashess || *argv == NULL))
 		interactive = isatty(0);
 	if (!dashoh) {
 		checkfd(0, rFrom);
@@ -75,12 +74,13 @@ quitopts:
 	initsignal();
 	inithash();
 	initparse();
-	assigndefault("prompt", "; ", "", (void *)0);
+	assigndefault("ifs", " ", "\t", "\n", (void *)0);
 #ifdef DEFAULTPATH
 	assigndefault("path", DEFAULTPATH, (void *)0);
 #endif
-	assigndefault("ifs", " ", "\t", "\n", (void *)0);
 	assigndefault("pid", nprint("%d", rc_pid), (void *)0);
+	assigndefault("prompt", "; ", "", (void *)0);
+	assigndefault("version", VERSION, "$Release: @(#)" PACKAGE " " VERSION " " RELDATE " $", (void *)0);
 	initenv(envp);
 	initinput();
 	null[0] = NULL;
@@ -113,6 +113,7 @@ static void assigndefault(char *name,...) {
 	for (l = NULL; (v = va_arg(ap, char *)) != NULL;)
 		l = append(l, word(v, NULL));
 	varassign(name, l, FALSE);
+	set_exportable(name, FALSE);
 	if (streq(name, "path"))
 		alias(name, l, FALSE);
 	va_end(ap);

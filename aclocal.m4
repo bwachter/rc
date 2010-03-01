@@ -1,6 +1,6 @@
-dnl aclocal.m4 generated automatically by aclocal 1.4a
+dnl aclocal.m4 generated automatically by aclocal 1.4-p5
 
-dnl Copyright (C) 1994, 1995-8, 1999 Free Software Foundation, Inc.
+dnl Copyright (C) 1994, 1995-8, 1999, 2001 Free Software Foundation, Inc.
 dnl This file is free software; the Free Software Foundation
 dnl gives unlimited permission to copy and/or distribute it,
 dnl with or without modifications, as long as this notice is preserved.
@@ -26,20 +26,6 @@ int main(void) {
 ])
 
 
-dnl Check for va_copy() in <stdarg.h>.  This is new in C 9x.
-AC_DEFUN(RC_HAVE_VA_COPY, [
-	AC_CACHE_CHECK(for va_copy(), rc_cv_have_va_copy, AC_EGREP_CPP(yes, [
-#include <stdarg.h>
-#ifdef va_copy
-yes
-#endif
-], rc_cv_have_va_copy=yes, rc_cv_have_va_copy=no))
-	case "$rc_cv_have_va_copy" in
-	yes) AC_DEFINE(HAVE_VA_COPY) ;;
-	esac
-])
-
-
 dnl We can't use AC_CHECK_FUNCS for sigsetjmp(), since it's a macro in
 dnl some places.
 AC_DEFUN(RC_FUNC_SIGSETJMP, [
@@ -52,6 +38,19 @@ sigsetjmp(e, 1);
 		], rc_cv_sigsetjmp=yes, rc_cv_sigsetjmp=no))
 	case "$rc_cv_sigsetjmp" in
 	yes)	AC_DEFINE(HAVE_SIGSETJMP) ;;
+	esac
+])
+
+dnl Similarly, AC_CHECK_FUNCS doesn't find strerror() on NetBSD.
+AC_DEFUN(RC_FUNC_STRERROR, [
+	AC_CACHE_CHECK(for strerror, rc_cv_strerror,
+		AC_TRY_LINK([
+#include <string.h>
+		], [
+strerror(0);
+		], rc_cv_strerror=yes, rc_cv_strerror=no))
+	case "$rc_cv_strerror" in
+	yes)	AC_DEFINE(HAVE_STRERROR) ;;
 	esac
 ])
 
@@ -243,10 +242,8 @@ AC_DEFUN(RC_LIB_TGETENT, [
 dnl Usage:
 dnl AM_INIT_AUTOMAKE(package,version, [no-define])
 
-AC_DEFUN(AM_INIT_AUTOMAKE,
+AC_DEFUN([AM_INIT_AUTOMAKE],
 [AC_REQUIRE([AC_PROG_INSTALL])
-dnl We require 2.13 because we rely on SHELL being computed by configure.
-AC_PREREQ([2.13])
 PACKAGE=[$1]
 AC_SUBST(PACKAGE)
 VERSION=[$2]
@@ -273,7 +270,7 @@ AC_REQUIRE([AC_PROG_MAKE_SET])])
 # Check to make sure that the build environment is sane.
 #
 
-AC_DEFUN(AM_SANITY_CHECK,
+AC_DEFUN([AM_SANITY_CHECK],
 [AC_MSG_CHECKING([whether build environment is sane])
 # Just in case
 sleep 1
@@ -314,7 +311,7 @@ AC_MSG_RESULT(yes)])
 
 dnl AM_MISSING_PROG(NAME, PROGRAM, DIRECTORY)
 dnl The program must properly implement --version.
-AC_DEFUN(AM_MISSING_PROG,
+AC_DEFUN([AM_MISSING_PROG],
 [AC_MSG_CHECKING(for working $2)
 # Run test in a subshell; some versions of sh will print an error if
 # an executable is not found, even if stderr is redirected.
@@ -330,7 +327,7 @@ AC_SUBST($1)])
 
 # Like AC_CONFIG_HEADER, but automatically create stamp file.
 
-AC_DEFUN(AM_CONFIG_HEADER,
+AC_DEFUN([AM_CONFIG_HEADER],
 [AC_PREREQ([2.12])
 AC_CONFIG_HEADER([$1])
 dnl When config.status generates a header, we must update the stamp-h file.
@@ -369,7 +366,7 @@ changequote([,]))])
 # program @code{ansi2knr}, which comes with Ghostscript.
 # @end defmac
 
-AC_DEFUN(AM_PROG_CC_STDC,
+AC_DEFUN([AM_PROG_CC_STDC],
 [AC_REQUIRE([AC_PROG_CC])
 AC_BEFORE([$0], [AC_C_INLINE])
 AC_BEFORE([$0], [AC_C_CONST])
@@ -441,7 +438,7 @@ esac
 
 # Define a conditional.
 
-AC_DEFUN(AM_CONDITIONAL,
+AC_DEFUN([AM_CONDITIONAL],
 [AC_SUBST($1_TRUE)
 AC_SUBST($1_FALSE)
 if $2; then

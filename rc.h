@@ -1,12 +1,17 @@
+#define NDEBUG 1
 #include "config.h"
 #include "proto.h"
 
+#include <assert.h>
+
 /* datatypes */
+
+#define ENV_SEP '\001'
+#define ENV_ESC '\002'
 
 /* braindamaged IBM header files #define true and false */
 #undef FALSE
 #undef TRUE
-
 
 typedef void builtin_t(char **);
 typedef struct Block Block;
@@ -27,8 +32,8 @@ typedef struct Format Format;
 typedef union Edata Edata;
 
 typedef enum nodetype {
-	nAndalso, nAssign, nBackq, nBang, nBody, nCbody, nNowait, nBrace, nConcat,
-	nCount, nElse, nFlat, nDup, nEpilog, nNewfn, nForin, nIf, nQword,
+	nAndalso, nAssign, nBackq, nBang, nBody, nCbody, nNowait, nBrace,
+	nConcat, nCount, nElse, nFlat, nDup, nEpilog, nNewfn, nForin, nIf,
 	nOrelse, nPipe, nPre, nRedir, nRmfn, nArgs, nSubshell, nCase,
 	nSwitch, nMatch, nVar, nVarsub, nWhile, nWord, nLappend, nNmpipe
 } nodetype;
@@ -95,6 +100,7 @@ struct Redir {
 
 struct Word {
 	char *w, *m;
+	bool q;
 };
 
 struct Rq {
@@ -133,7 +139,6 @@ struct Format {
 enum {
 	FMT_quad	= 1,		/* %q */
 	FMT_long	= 2,		/* %l */
-	FMT_short	= 4,		/* %h */
 	FMT_unsigned	= 8,		/* %u */
 	FMT_zeropad	= 16,		/* %0 */
 	FMT_leftside	= 32,		/* %- */
@@ -189,7 +194,6 @@ extern void sigint(int);
 
 /* exec.c */
 extern void exec(List *, bool);
-extern void doredirs(void);
 
 #if HASH_BANG
 #define rc_execve execve
@@ -246,6 +250,7 @@ extern void fnassign_string(char *);
 extern void fnrm(char *);
 extern void initenv(char **);
 extern void inithash(void);
+extern void set_exportable(char *, bool);
 extern void setsigdefaults(bool);
 extern void inithandler(void);
 extern void varassign(char *, List *, bool);
@@ -273,11 +278,12 @@ extern void pushfd(int);
 extern void pushstring(char **, bool);
 extern void popinput(void);
 extern void closefds(void);
-extern int last;
+extern int lastchar;
 extern bool rcrc;
 
 
 /* lex.c */
+extern bool quotep(char *, bool);
 extern int yylex(void);
 extern void inityy(void);
 extern void yyerror(const char *);
@@ -305,6 +311,7 @@ extern void restoreblock(Block *);
 /* open.c */
 extern int rc_open(const char *, redirtype);
 extern bool makeblocking(int);
+extern bool makesamepgrp(int);
 
 /* print.c */
 /*

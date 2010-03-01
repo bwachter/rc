@@ -1,8 +1,10 @@
 /* walk.c: walks the parse tree. */
 
+#include "rc.h"
+
 #include <signal.h>
 #include <setjmp.h>
-#include "rc.h"
+
 #include "jbwrap.h"
 
 /*
@@ -33,7 +35,7 @@ top:	sigchk();
 	switch (n->type) {
 	case nArgs: case nBackq: case nConcat: case nCount:
 	case nFlat: case nLappend: case nRedir: case nVar:
-	case nVarsub: case nWord: case nQword:
+	case nVarsub: case nWord:
 		exec(glob(glom(n)), parent);	/* simple command */
 		break;
 	case nBody:
@@ -217,6 +219,7 @@ top:	sigchk();
 		if (n->u[0].p->type == nRedir || n->u[0].p->type == nDup) {
 			if (redirq == NULL && !dofork(parent)) /* subshell on first preredir */
 				break;
+			setsigdefaults(FALSE);
 			qredir(n->u[0].p);
 			if (!haspreredir(n->u[1].p))
 				doredirs(); /* no more preredirs, empty queue */
@@ -246,6 +249,7 @@ top:	sigchk();
 		if (n->u[1].p == NULL) {
 			WALK(n->u[0].p, parent);
 		} else if (dofork(parent)) {
+			setsigdefaults(FALSE);
 			walk(n->u[1].p, TRUE); /* Do redirections */
 			redirq = NULL;   /* Reset redirection queue */
 			walk(n->u[0].p, FALSE); /* Do commands */
@@ -321,6 +325,7 @@ static void dopipe(Node *n) {
 			rc_error(NULL);
 		}
 		if ((pid = rc_fork()) == 0) {
+			setsigdefaults(FALSE);
 			redirq = NULL; /* clear preredir queue */
 			mvfd(p[0], r->u[1].i);
 			if (fd_prev != 1)
@@ -337,6 +342,7 @@ static void dopipe(Node *n) {
 		close(p[0]);
 	}
 	if ((pid = rc_fork()) == 0) {
+		setsigdefaults(FALSE);
 		mvfd(fd_prev, fd_out);
 		walk(r, FALSE);
 		exit(getstatus());

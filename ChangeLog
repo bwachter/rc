@@ -598,6 +598,193 @@ Changes since rc-1.5b2
 
   Tidiness: `make distclean' now removes sigmsgs.[ch].
 
-1995-05-28
+1999-05-28
 
   Release: rc-1.6.
+
+1999-08-19
+
+  Portability: the proposed C 9x __va_copy() macro is called that, not
+  va_copy(), as I thought.  Furthermore, it is defined to be a macro, so
+  we don't need to use autoconf to check for it.
+
+1999-10-11
+
+  Bug: absolute globs don't need special case in doglob().  Avoids
+  creating path names like `//tmp', which is a UNC path under CygWin.
+
+1999-10-12
+
+  Portability: status.c assumes traditional Unix layout of 0 and 1 exit
+  statuses in the parent, which is not shared by BeOS.  Add mkstatval.c.
+
+1999-10-13
+
+  Bug: a read(2) error in fdgchar() should call rc_raise(), not
+  rc_exit().  This bug is easily tickled on systems (like Linux) which
+  allow you to open(2) but not read(2) directories: `. /tmp'.  In all
+  previous versions of rc, this caused the shell to exit.
+
+  Portability: use POSIX strerror() where it's available; fake it with
+  sys_errlist[] where not.
+
+  Feature: replace `-V' with `version' variable.
+
+1999-10-14
+
+  Portability: exporting `path' causes indigestion in CygWin.  Since
+  it's virtually impossible for a child `rc' process to inherit `path'
+  (which I consider a bug, but it's not going to be fixed now), simply
+  don't export `path'.
+
+  Portability: add /usr/bsd to default default path.
+
+  Documentation: failing to search $path for a `.' command is at least
+  an incompatibility with Tenth Edition rc, and probably a bug.
+
+1999-11-10
+
+  Feature: make `version' a list.
+
+1999-11-11
+
+  Documentation: when running configure, you need to set LDFLAGS for
+  `-L' options, not LIBS.
+
+  Release: rc-1.6b1.
+
+1999-12-10
+
+  Bug: absolute globs do still need a special case.  `/*' works again now, but
+  we still avoid creating names like `//tmp/foo'.
+
+  Bug: avoid a putative race condition in signal.c.
+
+  Documentation: extra parentheses around `~' and `!' expressions are
+  forbidden.  Tom Duff's paper is not distributed with rc, but is
+  available on the web.
+
+  Release: rc-1.6b2.
+
+2000-04-19
+
+  Bug: isatty() tests in input.c are relevant to any fd, not just 0.
+  Now `. -i /dev/tty' works right.
+
+  Bug: fn sigexit wasn't always cleared in child shells.
+
+  Bug: `~ () '*'' dumped core.
+
+2000-05-25
+
+  Portability: need special runes for read() returning EIO under job
+  control systems.
+
+2000-06-20
+
+  Feature: add `-I' flag (definitively not interactive) for
+  compatibility with Plan 9 rc.
+
+2000-11-27
+
+  Portability: configure fails to detect strerror() on NetBSD; we need
+  to include <string.h>.
+
+2001-06-18
+
+  Bug: you can't pass a short to a stdargs function!
+
+2001-09-27
+
+  Documentation: we don't consider that `.' failing to search path is
+  a bug.
+
+  Feature: ^A in lists is now handled transparently.
+
+2001-10-01
+
+  Bug: it's no longer possible to use parentheses to sneak a word that
+  needs quoting past the "quoting detector", so `fn x { echo $(x.y) }'
+  now works both in the current rc and its descendants.
+
+  Documentation: mention the catastrophic effects of a semantic error
+  in fn prompt.
+
+2001-10-03
+
+  Feature: exported lists no longer use redundant parentheses.
+
+2001-10-04
+
+  Bug: semantic errors in `fn prompt' no longer throw rc into a tailspin.
+
+  Feature: don't export $cdpath or $home (the lower-case versions).
+
+2001-10-12
+
+  Release: rc-1.6b3.
+
+2001-10-25
+
+  Feature: large file support (thanks Scott Schwartz, Chris
+  Siebenmann).
+
+2001-10-29
+
+  Bug: space vs tab confusion in commented out Makefile rules to
+  rebuild parser (thanks Gary Carvell).
+
+2001-10-31
+
+  Documentation: subscripted variables don't work in here documents.
+
+  Release: rc-1.6c4.
+
+2001-11-01
+
+  Bug: more wrongly ordered header file includes (thanks Callum
+  Gibson).
+
+2001-11-06
+
+  Portability: rename print.c::utoa() to rc_utoa() to avoid QNX name
+  clash; use "sh -c 'test ...'" in trip.rc for missing standalone
+  `test' on QNX (thanks Stefan Dalibor).
+
+2001-11-20
+
+  Documentation: tighten up various descriptions, and include some
+  more examples.
+
+  Release: rc-1.6c5.
+
+2001-11-23
+
+  Bug: parselimit() was broken in various ways (thanks Chris
+  Siebenmann).
+
+2002-02-08
+
+  Bug: yet more wrongly ordered header file includes.
+
+  Release: rc-1.6c6.
+
+2002-04-03
+
+  Feature: make $version less magical, and exportable if it's changed
+  from its default value.  Same for $prompt (thank Erik Quanstrom).
+
+  Bug: make $bqstatus and $status not exportable.
+
+  Feature: "stuttering" colons for multiple replacements in the
+  history programs (thanks Callum Gibson).
+
+2002-05-22
+
+  Documentation: possible warning in tripping.c (thanks Dan Moniz).
+
+  Release: rc-1.6c7.
+
+2002-06-18
+
+  Release: rc-1.7.

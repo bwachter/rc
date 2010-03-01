@@ -1,6 +1,6 @@
-# Makefile.in generated automatically by automake 1.4a from Makefile.am
+# Makefile.in generated automatically by automake 1.4-p5 from Makefile.am
 
-# Copyright (C) 1994, 1995-8, 1999 Free Software Foundation, Inc.
+# Copyright (C) 1994, 1995-8, 1999, 2001 Free Software Foundation, Inc.
 # This Makefile.in is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
 # with or without modifications, as long as this notice is preserved.
@@ -65,19 +65,19 @@ MAKEINFO = @MAKEINFO@
 PACKAGE = @PACKAGE@
 VERSION = @VERSION@
 
-@AMC_ADDON_TRUE@ADDON = @ADDON@
-@AMC_HISTORY_TRUE@man_MANS = rc.1 history.1
-@AMC_HISTORY_FALSE@man_MANS = rc.1
-@AMC_HISTORY_TRUE@HISTORY = history
+@AMC_ADDON_TRUE@ADDON = @AMC_ADDON_TRUE@@ADDON@
+@AMC_HISTORY_TRUE@man_MANS = @AMC_HISTORY_TRUE@rc.1 history.1
+@AMC_HISTORY_FALSE@man_MANS = @AMC_HISTORY_FALSE@rc.1
+@AMC_HISTORY_TRUE@HISTORY = @AMC_HISTORY_TRUE@history
 
-@AMC_NO_HASHBANG_TRUE@EXECVE = execve.o
+@AMC_NO_HASHBANG_TRUE@EXECVE = @AMC_NO_HASHBANG_TRUE@execve.o
 
-@AMC_READLINE_TRUE@READLINE = readline.o
-@AMC_RESTART_TRUE@SYSTEM = system-bsd.o
-@AMC_RESTART_FALSE@SYSTEM = system.o
+@AMC_READLINE_TRUE@READLINE = @AMC_READLINE_TRUE@readline.o
+@AMC_RESTART_TRUE@SYSTEM = @AMC_RESTART_TRUE@system-bsd.o
+@AMC_RESTART_FALSE@SYSTEM = @AMC_RESTART_FALSE@system.o
 
 bin_PROGRAMS = rc
-noinst_PROGRAMS = mksignal tripping $(HISTORY)
+noinst_PROGRAMS = mksignal mkstatval tripping $(HISTORY)
 
 rc_SOURCES = builtins.c except.c exec.c fn.c footobar.c getopt.c glob.c glom.c hash.c heredoc.c input.c lex.c list.c main.c match.c nalloc.c open.c parse.c print.c redir.c signal.c status.c tree.c utils.c var.c wait.c walk.c which.c
 
@@ -94,7 +94,7 @@ EXTRA_DIST = EXAMPLES RELDATE addon.c addon.h history.1 parse.y rc.1 trip.rc
 
 CONFIGURE_DEPENDENCIES = RELDATE
 
-DISTCLEANFILES = sigmsgs.c sigmsgs.h
+DISTCLEANFILES = sigmsgs.c sigmsgs.h statval.h
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = config.h
@@ -115,6 +115,11 @@ mksignal_OBJECTS =  mksignal.o
 mksignal_LDADD = $(LDADD)
 mksignal_DEPENDENCIES = 
 mksignal_LDFLAGS = 
+mkstatval_SOURCES = mkstatval.c
+mkstatval_OBJECTS =  mkstatval.o
+mkstatval_LDADD = $(LDADD)
+mkstatval_DEPENDENCIES = 
+mkstatval_LDFLAGS = 
 tripping_SOURCES = tripping.c
 tripping_OBJECTS =  tripping.o
 tripping_LDADD = $(LDADD)
@@ -144,8 +149,8 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
 TAR = gtar
 GZIP_ENV = --best
-SOURCES = $(rc_SOURCES) $(EXTRA_rc_SOURCES) mksignal.c tripping.c history.c
-OBJECTS = $(rc_OBJECTS) mksignal.o tripping.o history.o
+SOURCES = $(rc_SOURCES) $(EXTRA_rc_SOURCES) mksignal.c mkstatval.c tripping.c history.c
+OBJECTS = $(rc_OBJECTS) mksignal.o mkstatval.o tripping.o history.o
 
 all: all-redirect
 .SUFFIXES:
@@ -253,6 +258,10 @@ rc: $(rc_OBJECTS) $(rc_DEPENDENCIES)
 mksignal: $(mksignal_OBJECTS) $(mksignal_DEPENDENCIES)
 	@rm -f mksignal
 	$(LINK) $(mksignal_LDFLAGS) $(mksignal_OBJECTS) $(mksignal_LDADD) $(LIBS)
+
+mkstatval: $(mkstatval_OBJECTS) $(mkstatval_DEPENDENCIES)
+	@rm -f mkstatval
+	$(LINK) $(mkstatval_LDFLAGS) $(mkstatval_OBJECTS) $(mkstatval_LDADD) $(LIBS)
 
 tripping: $(tripping_OBJECTS) $(tripping_DEPENDENCIES)
 	@rm -f tripping
@@ -371,7 +380,7 @@ distdir: $(DISTFILES)
 	@for file in $(DISTFILES); do \
 	  d=$(srcdir); \
 	  if test -d $$d/$$file; then \
-	    cp -pr $$/$$file $(distdir)/$$file; \
+	    cp -pr $$d/$$file $(distdir)/$$file; \
 	  else \
 	    test -f $(distdir)/$$file \
 	    || ln $$d/$$file $(distdir)/$$file 2> /dev/null \
@@ -389,12 +398,14 @@ glob.o: glob.c rc.h config.h proto.h
 glom.o: glom.c rc.h config.h proto.h
 hash.o: hash.c rc.h config.h proto.h sigmsgs.h
 heredoc.o: heredoc.c rc.h config.h proto.h
+history.o: history.c rc.h config.h proto.h
 input.o: input.c rc.h config.h proto.h jbwrap.h
 lex.o: lex.c rc.h config.h proto.h parse.h
 list.o: list.c rc.h config.h proto.h
 main.o: main.c rc.h config.h proto.h
 match.o: match.c rc.h config.h proto.h
 mksignal.o: mksignal.c
+mkstatval.o: mkstatval.c
 nalloc.o: nalloc.c rc.h config.h proto.h
 open.o: open.c rc.h config.h proto.h
 parse.o: parse.c rc.h config.h proto.h
@@ -403,10 +414,10 @@ readline.o: readline.c rc.h config.h proto.h jbwrap.h
 redir.o: redir.c rc.h config.h proto.h
 sigmsgs.o: sigmsgs.c sigmsgs.h
 signal.o: signal.c rc.h config.h proto.h sigmsgs.h jbwrap.h
-status.o: status.c rc.h config.h proto.h sigmsgs.h wait.h
+status.o: status.c rc.h config.h proto.h sigmsgs.h statval.h wait.h
 system.o: system.c rc.h config.h proto.h
 tree.o: tree.c rc.h config.h proto.h
-tripping.o: tripping.c
+tripping.o: tripping.c config.h
 utils.o: utils.c rc.h config.h proto.h jbwrap.h
 var.o: var.c rc.h config.h proto.h
 wait.o: wait.c rc.h config.h proto.h wait.h
@@ -503,6 +514,9 @@ maintainer-clean-generic clean mostlyclean distclean maintainer-clean
 sigmsgs.c sigmsgs.h: mksignal
 	./mksignal
 
+statval.h: mkstatval
+	./mkstatval > statval.h
+
 # Of course, parse.c and parse.h depend on parse.y.  However, unless
 # you're hacking on rc's grammar, it's not useful to have this
 # dependency expressed, since the distributed parse.[ch] (generated with
@@ -510,8 +524,10 @@ sigmsgs.c sigmsgs.h: mksignal
 # portable (I hope).
 #parse.c parse.h: $(srcdir)/parse.y
 #	$(YACC) -d $(srcdir)/parse.y
-#     mv y.tab.c parse.c
-#     mv y.tab.h parse.h
+#	mv y.tab.c parse.c
+#	mv y.tab.h parse.h
+
+check: trip
 
 trip: rc tripping
 	./rc -p < $(srcdir)/trip.rc

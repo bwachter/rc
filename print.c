@@ -20,7 +20,6 @@ static bool name(Format *format, int ignore) { \
 }
 
 Flag(uconv,	FMT_unsigned)
-Flag(hconv,	FMT_short)
 Flag(rc_lconv,	FMT_long)
 
 #if HAVE_QUAD_T
@@ -70,9 +69,9 @@ static bool sconv(Format *format, int ignore) {
 	return FALSE;
 }
 
-static char *utoa(unsigned long u, char *t, unsigned int radix, const char *digit) {
+static char *rc_utoa(unsigned long u, char *t, unsigned int radix, const char *digit) {
 	if (u >= radix) {
-		t = utoa(u / radix, t, radix, digit);
+		t = rc_utoa(u / radix, t, radix, digit);
 		u %= radix;
 	}
 	*t++ = digit[u];
@@ -103,8 +102,6 @@ static void intconv(Format *format, unsigned int radix, int upper, const char *a
 
 	if (flags & FMT_long)
 		n = va_arg(format->args, long);
-	else if (flags & FMT_short)
-		n = va_arg(format->args, short);
 	else
 		n = va_arg(format->args, int);
 
@@ -120,7 +117,7 @@ static void intconv(Format *format, unsigned int radix, int upper, const char *a
 		while (*altform != '\0')
 			prefix[pre++] = *altform++;
 
-	len = utoa(u, number, radix, table[upper]) - number;
+	len = rc_utoa(u, number, radix, table[upper]) - number;
 	if ((flags & FMT_f2set) && (size_t) format->f2 > len)
 		zeroes = format->f2 - len;
 	else
@@ -202,7 +199,6 @@ static void inittab(void) {
 	fmttab['%'] = pctconv;
 
 	fmttab['u'] = uconv;
-	fmttab['h'] = hconv;
 	fmttab['l'] = rc_lconv;
 	fmttab['#'] = altconv;
 	fmttab['-'] = leftconv;
@@ -289,11 +285,11 @@ extern int fmtprint(Format *format, const char *fmt,...) {
 	va_list ap, saveargs;
 
 	va_start(ap, fmt);
-	va_copy(saveargs, format->args);
-	va_copy(format->args, ap);
+	__va_copy(saveargs, format->args);
+	__va_copy(format->args, ap);
 	n += printfmt(format, fmt);
 	va_end(format->args);
-	va_copy(format->args, saveargs);
+	__va_copy(format->args, saveargs);
 
 	return n + format->flushed;
 }
@@ -320,7 +316,7 @@ extern int fprint(int fd, const char *fmt,...) {
 	format.u.n	= fd;
 
 	va_start(ap, fmt);
-	va_copy(format.args, ap);
+	__va_copy(format.args, ap);
 	printfmt(&format, fmt);
 	va_end(format.args);
 
@@ -365,7 +361,7 @@ extern char *mprint(const char *fmt,...) {
 
 	format.u.n = 1;
 	va_start(ap, fmt);
-	va_copy(format.args, ap);
+	__va_copy(format.args, ap);
 	result = memprint(&format, fmt, ealloc(PRINT_ALLOCSIZE), PRINT_ALLOCSIZE);
 	va_end(format.args);
 	return result;
@@ -378,7 +374,7 @@ extern char *nprint(const char *fmt,...) {
 
 	format.u.n = 0;
 	va_start(ap, fmt);
-	va_copy(format.args, ap);
+	__va_copy(format.args, ap);
 	result = memprint(&format, fmt, nalloc(PRINT_ALLOCSIZE), PRINT_ALLOCSIZE);
 	va_end(format.args);
 	return result;

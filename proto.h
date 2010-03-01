@@ -23,11 +23,11 @@ typedef long align_t;
 
 #include <stdarg.h>
 
-/* C 9x specifies a va_copy() macro which should be used for copying
+/* C 9x specifies a __va_copy() macro which should be used for copying
 objects of type va_list.  Of course, most places don't have this yet,
 but where it does exist we need to use it. */
-#ifndef va_copy
-#define va_copy(x,y) (x)=(y)
+#ifndef __va_copy
+#define __va_copy(x,y) (x)=(y)
 #endif
 
 #if STDC_HEADERS
@@ -59,6 +59,15 @@ extern void qsort(void *, size_t, size_t, int (*)(const void *, const void *));
 
 #endif /* STDC_HEADERS */
 
+#if HAVE_STRERROR
+/* Smells like POSIX. */
+#else
+/* Assume BSD-style sys_errlist[]. */
+extern int sys_nerr;
+extern char *sys_errlist[];
+#define strerror(x) ((0 <= (x)) && (errno < (x)) ? sys_errlist[x] : (char *)0)
+#endif
+
 #if HAVE_UNISTD_H
 #include <unistd.h>
 #endif
@@ -68,8 +77,10 @@ extern void qsort(void *, size_t, size_t, int (*)(const void *, const void *));
 #if SETPGRP_VOID
 /* Smells like POSIX: should all be ok. */
 #else
-/* BSD: fake it. */
+/* Old BSD: fake it. */
 #define setpgid(pid, pgrp) setpgrp(pid, pgrp)
+#include <sys/ioctl.h>
+#define tcgetpgrp(fd) ioctl((fd), TIOCGPGRP)
 #define tcsetpgrp(fd, pgrp) ioctl((fd), TIOCSPGRP, &(pgrp))
 #endif
 
@@ -77,6 +88,7 @@ extern void qsort(void *, size_t, size_t, int (*)(const void *, const void *));
 
 /* Nothing doing. */
 #define setpgid()
+#define tcgetpgrp()
 #define tcsetpgrp()
 
 #endif /*HAVE_SETPGRP */
