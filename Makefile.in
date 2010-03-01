@@ -397,6 +397,7 @@ nalloc.o: nalloc.c rc.h config.h proto.h
 open.o: open.c rc.h config.h proto.h
 parse.o: parse.c rc.h config.h proto.h
 print.o: print.c rc.h config.h proto.h
+readline.o: readline.c rc.h config.h proto.h jbwrap.h
 redir.o: redir.c rc.h config.h proto.h
 sigmsgs.o: sigmsgs.c sigmsgs.h
 signal.o: signal.c rc.h config.h proto.h sigmsgs.h jbwrap.h
