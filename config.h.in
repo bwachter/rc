@@ -1,44 +1,151 @@
-/* Header files */
-#undef STDC_HEADERS
+/* config.h.in.  Generated automatically from configure.in by autoheader.  */
 
-#undef HAVE_SYS_RESOURCE_H
-#undef RLIMIT_NEEDS_KERNEL
-#undef HAVE_SYS_TIME_H
-#undef HAVE_UNISTD_H
-
-#undef HAVE_DIRENT_H
-#undef HAVE_SYS_NDIR_H
-#undef HAVE_SYS_DIR_H
-#undef HAVE_NDIR_H
-
-/* Functions */
-#undef HAVE_GETGROUPS
-#undef HAVE_SETPGRP
-#undef HAVE_SETRLIMIT
-
-/* Types */
-#undef HAVE_GID_T
-#undef HAVE_RLIM_T
-#undef HAVE_QUAD_T
-#undef RLIM_T_IS_QUAD_T
+/* Define to the type of elements in the array set by `getgroups'.
+   Usually this is either `int' or `gid_t'.  */
 #undef GETGROUPS_T
-#undef gid_t
-#undef pid_t
-#undef size_t
-#undef uid_t
 
-/* OS features */
-#undef HASH_BANG
-#undef HAVE_DEV_FD
-#undef HAVE_FIFO
-#undef HAVE_PROC_SELF_FD
+/* Define to `int' if <sys/types.h> doesn't define.  */
+#undef gid_t
+
+/* Define if system calls automatically restart after interruption
+   by a signal.  */
 #undef HAVE_RESTARTABLE_SYSCALLS
+
+/* Define if you have <sys/wait.h> that is POSIX.1 compatible.  */
+#undef HAVE_SYS_WAIT_H
+
+/* Define to `int' if <sys/types.h> doesn't define.  */
+#undef pid_t
+
+/* Define if the `setpgrp' function takes no argument.  */
 #undef SETPGRP_VOID
 
-/* rc features */
+/* Define to `unsigned' if <sys/types.h> doesn't define.  */
+#undef size_t
+
+/* Define if you have the ANSI C header files.  */
+#undef STDC_HEADERS
+
+/* Define to `int' if <sys/types.h> doesn't define.  */
+#undef uid_t
+
+/* Define to a suitable ssize_t. */
+#undef ssize_t
+
+/* Define to a suitable sig_atomic_t. */
+#undef sig_atomic_t
+
+/* Define if you want rc to hand off exec errors to (e.g.) /bin/sh. */
 #undef DEFAULTINTERP
+
+/* Define to the default path used if $PATH is empty when rc starts. */
 #undef DEFAULTPATH
-#undef RC_ECHO
-#undef RC_JOB
+
+/* Define if your kernel has SysV special SIGCLD semantics. */
+#undef HAVE_SYSV_SIGCLD
+
+/* Define if your kernel supports `#!' magic numbers. */
+#undef HASH_BANG
+
+/* Define if you have /dev/fd. */
+#undef HAVE_DEV_FD
+
+/* Define if you have /proc/self/fd. */
+#undef HAVE_PROC_SELF_FD
+
+/* Define if you have named pipes. */
+#undef HAVE_FIFO
+
+/* Define if quad_t is a native type. */
+#undef HAVE_QUAD_T
+
+/* Define if you have rlim_t. */
+#undef HAVE_RLIM_T
+
+/* Define if you have sigsetjmp(). */
+#undef HAVE_SIGSETJMP
+
+/* Define if you want rc to encode strange characters in the environment. */
 #undef PROTECT_ENV
+
+/* Define if you have extra builtins. */
+#undef RC_ADDON
+
+/* Define if you want echo as a builtin. */
+#undef RC_ECHO
+
+/* Define if you want rc to support broken apps, like a job control shell. */
+#undef RC_JOB
+
+/* Define if you want to use editline. */
+#undef EDITLINE
+
+/* Define if you want to use GNU readline. */
 #undef READLINE
+
+/* Define if you have the older readline, with rl_deprep_terminal. */
+#undef READLINE_OLD
+
+/* Define if RLIMIT_foo defines need _KERNEL. */
+#undef RLIMIT_NEEDS_KERNEL
+
+/* Define if rlim_t is quad_t. */
+#undef RLIM_T_IS_QUAD_T
+
+/* Define to release date. */
+#undef RELDATE
+
+/* Define if you have SA_INTERRUPT (and sigaction()). */
+#undef HAVE_SA_INTERRUPT
+
+/* Define if you have POSIX getgroups(). */
+#undef HAVE_POSIX_GETGROUPS
+
+/* Define if you have va_copy(). */
+#undef HAVE_VA_COPY
+
+/* Define if you have the getgroups function.  */
+#undef HAVE_GETGROUPS
+
+/* Define if you have the mkfifo function.  */
+#undef HAVE_MKFIFO
+
+/* Define if you have the setpgrp function.  */
+#undef HAVE_SETPGRP
+
+/* Define if you have the setrlimit function.  */
+#undef HAVE_SETRLIMIT
+
+/* Define if you have the <dirent.h> header file.  */
+#undef HAVE_DIRENT_H
+
+/* Define if you have the <ndir.h> header file.  */
+#undef HAVE_NDIR_H
+
+/* Define if you have the <sys/dir.h> header file.  */
+#undef HAVE_SYS_DIR_H
+
+/* Define if you have the <sys/ndir.h> header file.  */
+#undef HAVE_SYS_NDIR_H
+
+/* Define if you have the <sys/resource.h> header file.  */
+#undef HAVE_SYS_RESOURCE_H
+
+/* Define if you have the <sys/time.h> header file.  */
+#undef HAVE_SYS_TIME_H
+
+/* Define if you have the <sys/types.h> header file.  */
+#undef HAVE_SYS_TYPES_H
+
+/* Define if you have the <unistd.h> header file.  */
+#undef HAVE_UNISTD_H
+
+/* Define if you have the readline library (-lreadline).  */
+#undef HAVE_LIBREADLINE
+
+/* Name of package */
+#undef PACKAGE
+
+/* Version number of package */
+#undef VERSION
+

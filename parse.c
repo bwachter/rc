@@ -1,36 +1,16 @@
-#ifndef lint
-static char const yysccsid[] = "@(#)yaccpar	1.9 (Berkeley) 02/21/93";
-#endif
 #define YYBYACC 1
 #define YYMAJOR 1
 #define YYMINOR 9
-#define YYLEX yylex()
-#define YYEMPTY -1
-#define yyclearin (yychar=(YYEMPTY))
+#define yyclearin (yychar=(-1))
 #define yyerrok (yyerrflag=0)
 #define YYRECOVERING (yyerrflag!=0)
-/* cfront 1.2 defines "c_plusplus" instead of "__cplusplus" */
-#ifdef c_plusplus
-#ifndef __cplusplus
-#define __cplusplus
-#endif
-#endif
-#ifdef __cplusplus
-extern "C" { char *getenv(const char *); }
-#else
-extern char *getenv();
-extern int yylex();
-extern int yyparse();
-#endif
 #define YYPREFIX "yy"
 #line 8 "parse.y"
 #include "rc.h"
-#ifndef lint
-#define lint		/* hush up gcc -Wall, leave out the dumb sccsid's. */
-#endif
+
 static Node *star, *nolist;
 Node *parsetree;	/* not using yylval because bison declares it as an auto */
-#line 28 "parse.y"
+#line 26 "parse.y"
 typedef union {
 	struct Node *node;
 	struct Redir redir;
@@ -39,7 +19,7 @@ typedef union {
 	struct Word word;
 	char *keyword;
 } YYSTYPE;
-#line 43 "y.tab.c"
+#line 26 "y.tab.c"
 #define ANDAND 257
 #define BACKBACK 258
 #define BANG 259
@@ -65,7 +45,7 @@ typedef union {
 #define WORD 279
 #define HUH 280
 #define YYERRCODE 256
-const short yylhs[] = {                                        -1,
+short yylhs[] = {                                        -1,
     0,    0,   22,   22,    8,    8,   13,   13,    3,    3,
     9,    9,    4,   15,    2,   11,   11,   16,   16,   16,
     5,    5,    6,    6,    6,   19,   19,    7,    7,    7,
@@ -76,7 +56,7 @@ const short yylhs[] = {                                        -1,
     1,    1,    1,    1,    1,    1,    1,    1,   21,   21,
    14,   14,   14,   23,   23,
 };
-const short yylen[] = {                                         2,
+short yylen[] = {                                         2,
     2,    2,    1,    1,    2,    2,    1,    2,    1,    2,
     1,    2,    3,    3,    3,    0,    2,    1,    2,    2,
     3,    3,    1,    2,    2,    1,    4,    0,    1,    2,
@@ -87,7 +67,7 @@ const short yylen[] = {                                         2,
     1,    1,    1,    1,    1,    1,    1,    1,    0,    2,
     0,    2,    2,    0,    2,
 };
-const short yydefred[] = {                                      0,
+short yydefred[] = {                                      0,
     0,    0,    0,    0,   18,    0,   79,    0,    0,    0,
     0,    0,    0,    0,    0,   67,    0,    0,   81,    0,
     0,    0,    0,    0,    0,   51,    0,    0,    0,    0,
@@ -105,12 +85,12 @@ const short yydefred[] = {                                      0,
    79,    0,    0,    0,    0,    0,    0,   24,   35,   25,
    22,   21,
 };
-const short yydgoto[] = {                                      21,
+short yydgoto[] = {                                      21,
    46,   22,   66,   23,  142,  143,   67,   68,   69,   47,
    75,   27,   28,   70,   57,   29,   48,   30,  122,   94,
    54,   33,   97,   51,
 };
-const short yysindex[] = {                                    874,
+short yysindex[] = {                                    874,
    24, 1001,  -82, 1001,    0, 1001,    0,  -27,  -26,  900,
  1001,  -82,  -20,  -82,  -26,    0, 1001, 1134,    0,  900,
     0, 1134, -203,  -30, 1134,    0,  -55,   24, 1134,  826,
@@ -128,7 +108,7 @@ const short yysindex[] = {                                    874,
     0,  967,  -45,  154,  967, -234,  448,    0,    0,    0,
     0,    0,
 };
-const short yyrindex[] = {                                    134,
+short yyrindex[] = {                                    134,
     0,    0,  356,    0,    0,    0,    0,    0,    0,    0,
     0,  356,    0, 1024,    0,    0,    0,  571,    0,    0,
     0,  487,  529,   54,  134,    0,   62,    0,  487,  548,
@@ -146,13 +126,13 @@ const short yyrindex[] = {                                    134,
     0,  571,    0,  -44,  571,  396,    0,    0,    0,    0,
     0,    0,
 };
-const short yygindex[] = {                                      0,
+short yygindex[] = {                                      0,
     0,    0,  -23,   12,    0, -104, 1319,    2, -127, 1307,
     7,    0,   57,    0,   70,  -13,   84,    0,    0,  420,
   -81,   59,  369,   31,
 };
 #define YYTABLESIZE 1464
-const short yytable[] = {                                      57,
+short yytable[] = {                                      57,
   119,   25,  117,   28,  123,   83,   28,   81,    9,   76,
   145,   50,   55,   56,  145,   26,   87,  145,  124,   62,
   126,   58,   77,   19,   28,   57,   25,   57,   80,   57,
@@ -301,7 +281,7 @@ const short yytable[] = {                                      57,
     0,   26,    0,    0,    0,  140,  144,  146,    0,    0,
   144,    0,    0,  144,
 };
-const short yycheck[] = {                                      10,
+short yycheck[] = {                                      10,
    10,    0,   41,   38,   41,   61,   41,   38,   41,   23,
   138,   94,   40,   40,  142,   10,   30,  145,  100,   40,
   102,   10,  257,   10,   59,   36,   25,   38,   59,   40,
@@ -468,7 +448,7 @@ char *yyname[] = {
 "FLAT","FN","FOR","IF","IN","OROR","PIPE","REDIR","SREDIR","SUB","SUBSHELL",
 "SWITCH","TWIDDLE","WHILE","WORD","HUH",
 };
-const char * const yyrule[] = {
+char *yyrule[] = {
 "$accept : rc",
 "rc : line end",
 "rc : error end",
@@ -579,27 +559,27 @@ YYSTYPE yylval;
 short yyss[YYSTACKSIZE];
 YYSTYPE yyvs[YYSTACKSIZE];
 #define yystacksize YYSTACKSIZE
-#line 169 "parse.y"
+#line 167 "parse.y"
 
 void initparse() {
 	star = treecpy(mk(nVar,mk(nWord,"*",NULL)), ealloc);
 	nolist = treecpy(mk(nVar,mk(nWord,"ifs",NULL)), ealloc);
 }
 
-#line 590 "y.tab.c"
+#line 573 "y.tab.c"
 #define YYABORT goto yyabort
 #define YYREJECT goto yyabort
 #define YYACCEPT goto yyaccept
 #define YYERROR goto yyerrlab
-
 int
 yyparse()
 {
     register int yym, yyn, yystate;
 #if YYDEBUG
     register char *yys;
+    extern char *getenv();
 
-    if ((yys = getenv("YYDEBUG")))
+    if (yys = getenv("YYDEBUG"))
     {
         yyn = *yys;
         if (yyn >= '0' && yyn <= '9')
@@ -656,15 +636,7 @@ yyloop:
         goto yyreduce;
     }
     if (yyerrflag) goto yyinrecovery;
-#if defined(lint) || defined(__GNUC__)
-    goto yynewerror;
-#endif
-yynewerror:
     yyerror("syntax error");
-#if defined(lint) || defined(__GNUC__)
-    goto yyerrlab;
-#endif
-yyerrlab:
     ++yynerrs;
 yyinrecovery:
     if (yyerrflag < 3)
@@ -728,290 +700,290 @@ yyreduce:
     switch (yyn)
     {
 case 1:
-#line 49 "parse.y"
+#line 47 "parse.y"
 { parsetree = yyvsp[-1].node; YYACCEPT; }
 break;
 case 2:
-#line 50 "parse.y"
+#line 48 "parse.y"
 { yyerrok; parsetree = NULL; YYABORT; }
 break;
 case 3:
-#line 53 "parse.y"
+#line 51 "parse.y"
 { if (!heredoc(1)) YYABORT; }
 break;
 case 4:
-#line 54 "parse.y"
+#line 52 "parse.y"
 { if (!heredoc(0)) YYABORT; }
 break;
 case 6:
-#line 58 "parse.y"
+#line 56 "parse.y"
 { yyval.node = (yyvsp[-1].node != NULL ? mk(nNowait,yyvsp[-1].node) : yyvsp[-1].node); }
 break;
 case 8:
-#line 62 "parse.y"
+#line 60 "parse.y"
 { yyval.node = (yyvsp[-1].node != NULL ? mk(nBody,yyvsp[-1].node,yyvsp[0].node) : yyvsp[0].node); }
 break;
 case 10:
-#line 66 "parse.y"
+#line 64 "parse.y"
 { yyval.node = (yyvsp[-1].node == NULL ? yyvsp[0].node : yyvsp[0].node == NULL ? yyvsp[-1].node : mk(nBody,yyvsp[-1].node,yyvsp[0].node)); }
 break;
 case 12:
-#line 69 "parse.y"
+#line 67 "parse.y"
 { yyval.node = yyvsp[-1].node; if (!heredoc(0)) YYABORT; }
 break;
 case 13:
-#line 71 "parse.y"
+#line 69 "parse.y"
 { yyval.node = yyvsp[-1].node; }
 break;
 case 14:
-#line 73 "parse.y"
+#line 71 "parse.y"
 { yyval.node = yyvsp[-1].node; }
 break;
 case 15:
-#line 75 "parse.y"
+#line 73 "parse.y"
 { yyval.node = mk(nAssign,yyvsp[-2].node,yyvsp[0].node); }
 break;
 case 16:
-#line 77 "parse.y"
+#line 75 "parse.y"
 { yyval.node = NULL; }
 break;
 case 17:
-#line 78 "parse.y"
+#line 76 "parse.y"
 { yyval.node = mk(nEpilog,yyvsp[-1].node,yyvsp[0].node); }
 break;
 case 18:
-#line 81 "parse.y"
+#line 79 "parse.y"
 { yyval.node = mk(nDup,yyvsp[0].dup.type,yyvsp[0].dup.left,yyvsp[0].dup.right); }
 break;
 case 19:
-#line 82 "parse.y"
+#line 80 "parse.y"
 { yyval.node = mk(nRedir,yyvsp[-1].redir.type,yyvsp[-1].redir.fd,yyvsp[0].node);
 				  if (yyvsp[-1].redir.type == rHeredoc && !qdoc(yyvsp[0].node, yyval.node)) YYABORT; /* queue heredocs up */
 				}
 break;
 case 20:
-#line 85 "parse.y"
+#line 83 "parse.y"
 { yyval.node = mk(nRedir,yyvsp[-1].redir.type,yyvsp[-1].redir.fd,yyvsp[0].node);
 				  if (yyvsp[-1].redir.type == rHeredoc && !qdoc(yyvsp[0].node, yyval.node)) YYABORT; /* queue heredocs up */
 				}
 break;
 case 21:
-#line 89 "parse.y"
+#line 87 "parse.y"
 { yyval.node = mk(nCase, yyvsp[-1].node); }
 break;
 case 22:
-#line 90 "parse.y"
+#line 88 "parse.y"
 { yyval.node = mk(nCase, yyvsp[-1].node); }
 break;
 case 23:
-#line 92 "parse.y"
+#line 90 "parse.y"
 { yyval.node = mk(nCbody, yyvsp[0].node, NULL); }
 break;
 case 24:
-#line 93 "parse.y"
+#line 91 "parse.y"
 { yyval.node = mk(nCbody, yyvsp[-1].node, yyvsp[0].node); }
 break;
 case 25:
-#line 94 "parse.y"
+#line 92 "parse.y"
 { yyval.node = mk(nCbody, yyvsp[-1].node, yyvsp[0].node); }
 break;
 case 27:
-#line 97 "parse.y"
+#line 95 "parse.y"
 { yyval.node = mk(nElse,yyvsp[-3].node,yyvsp[0].node); }
 break;
 case 28:
-#line 99 "parse.y"
+#line 97 "parse.y"
 { yyval.node = NULL; }
 break;
 case 30:
-#line 101 "parse.y"
+#line 99 "parse.y"
 { yyval.node = mk(nBrace,yyvsp[-1].node,yyvsp[0].node); }
 break;
 case 31:
-#line 102 "parse.y"
+#line 100 "parse.y"
 { yyval.node = mk(nIf,yyvsp[-2].node,yyvsp[0].node); }
 break;
 case 32:
-#line 103 "parse.y"
+#line 101 "parse.y"
 { yyval.node = mk(nForin,yyvsp[-5].node,yyvsp[-3].node,yyvsp[0].node); }
 break;
 case 33:
-#line 104 "parse.y"
+#line 102 "parse.y"
 { yyval.node = mk(nForin,yyvsp[-3].node,star,yyvsp[0].node); }
 break;
 case 34:
-#line 105 "parse.y"
+#line 103 "parse.y"
 { yyval.node = mk(nWhile,yyvsp[-2].node,yyvsp[0].node); }
 break;
 case 35:
-#line 106 "parse.y"
+#line 104 "parse.y"
 { yyval.node = mk(nSwitch,yyvsp[-5].node,yyvsp[-1].node); }
 break;
 case 36:
-#line 107 "parse.y"
+#line 105 "parse.y"
 { yyval.node = mk(nMatch,yyvsp[-1].node,yyvsp[0].node); }
 break;
 case 37:
-#line 108 "parse.y"
+#line 106 "parse.y"
 { yyval.node = mk(nAndalso,yyvsp[-3].node,yyvsp[0].node); }
 break;
 case 38:
-#line 109 "parse.y"
+#line 107 "parse.y"
 { yyval.node = mk(nOrelse,yyvsp[-3].node,yyvsp[0].node); }
 break;
 case 39:
-#line 110 "parse.y"
+#line 108 "parse.y"
 { yyval.node = mk(nPipe,yyvsp[-2].pipe.left,yyvsp[-2].pipe.right,yyvsp[-3].node,yyvsp[0].node); }
 break;
 case 40:
-#line 111 "parse.y"
+#line 109 "parse.y"
 { yyval.node = (yyvsp[0].node != NULL ? mk(nPre,yyvsp[-1].node,yyvsp[0].node) : yyvsp[-1].node); }
 break;
 case 41:
-#line 112 "parse.y"
+#line 110 "parse.y"
 { yyval.node = (yyvsp[0].node != NULL ? mk(nPre,yyvsp[-1].node,yyvsp[0].node) : yyvsp[-1].node); }
 break;
 case 42:
-#line 113 "parse.y"
+#line 111 "parse.y"
 { yyval.node = mk(nBang,yyvsp[0].node); }
 break;
 case 43:
-#line 114 "parse.y"
+#line 112 "parse.y"
 { yyval.node = mk(nSubshell,yyvsp[0].node); }
 break;
 case 44:
-#line 115 "parse.y"
+#line 113 "parse.y"
 { yyval.node = mk(nNewfn,yyvsp[-1].node,yyvsp[0].node); }
 break;
 case 45:
-#line 116 "parse.y"
+#line 114 "parse.y"
 { yyval.node = mk(nRmfn,yyvsp[0].node); }
 break;
 case 49:
-#line 122 "parse.y"
+#line 120 "parse.y"
 { yyval.node = (yyvsp[0].node != NULL ? mk(nArgs,yyvsp[-1].node,yyvsp[0].node) : yyvsp[-1].node); }
 break;
 case 50:
-#line 123 "parse.y"
+#line 121 "parse.y"
 { yyval.node = mk(nArgs,yyvsp[-1].node,yyvsp[0].node); }
 break;
 case 52:
-#line 126 "parse.y"
+#line 124 "parse.y"
 { yyval.node = mk(nConcat,yyvsp[-2].node,yyvsp[0].node); }
 break;
 case 54:
-#line 129 "parse.y"
+#line 127 "parse.y"
 { yyval.node = mk(nWord,yyvsp[0].keyword, NULL); }
 break;
 case 56:
-#line 132 "parse.y"
+#line 130 "parse.y"
 { yyval.node = mk(nConcat,yyvsp[-2].node,yyvsp[0].node); }
 break;
 case 57:
-#line 134 "parse.y"
+#line 132 "parse.y"
 { yyval.node = mk(nVar,yyvsp[0].node); }
 break;
 case 58:
-#line 135 "parse.y"
+#line 133 "parse.y"
 { yyval.node = mk(nVarsub,yyvsp[-3].node,yyvsp[-1].node); }
 break;
 case 59:
-#line 136 "parse.y"
+#line 134 "parse.y"
 { yyval.node = mk(nCount,yyvsp[0].node); }
 break;
 case 60:
-#line 137 "parse.y"
+#line 135 "parse.y"
 { yyval.node = mk(nFlat, yyvsp[0].node); }
 break;
 case 61:
-#line 138 "parse.y"
+#line 136 "parse.y"
 { yyval.node = mk(nBackq,nolist,yyvsp[0].node); }
 break;
 case 62:
-#line 139 "parse.y"
+#line 137 "parse.y"
 { yyval.node = mk(nBackq,nolist,yyvsp[0].node); }
 break;
 case 63:
-#line 140 "parse.y"
+#line 138 "parse.y"
 { yyval.node = mk(nBackq,yyvsp[-1].node,yyvsp[0].node); }
 break;
 case 64:
-#line 141 "parse.y"
+#line 139 "parse.y"
 { yyval.node = mk(nBackq,yyvsp[-1].node,yyvsp[0].node); }
 break;
 case 65:
-#line 142 "parse.y"
+#line 140 "parse.y"
 { yyval.node = yyvsp[-1].node; }
 break;
 case 66:
-#line 143 "parse.y"
+#line 141 "parse.y"
 { yyval.node = mk(nNmpipe,yyvsp[-1].redir.type,yyvsp[-1].redir.fd,yyvsp[0].node); }
 break;
 case 67:
-#line 144 "parse.y"
+#line 142 "parse.y"
 { yyval.node = (yyvsp[0].word.w[0] == '\'') ? mk(nQword, yyvsp[0].word.w+1, NULL) : mk(nWord,yyvsp[0].word.w, yyvsp[0].word.m); }
 break;
 case 68:
-#line 146 "parse.y"
+#line 144 "parse.y"
 { yyval.keyword = "for"; }
 break;
 case 69:
-#line 147 "parse.y"
+#line 145 "parse.y"
 { yyval.keyword = "in"; }
 break;
 case 70:
-#line 148 "parse.y"
+#line 146 "parse.y"
 { yyval.keyword = "while"; }
 break;
 case 71:
-#line 149 "parse.y"
+#line 147 "parse.y"
 { yyval.keyword = "if"; }
 break;
 case 72:
-#line 150 "parse.y"
+#line 148 "parse.y"
 { yyval.keyword = "switch"; }
 break;
 case 73:
-#line 151 "parse.y"
+#line 149 "parse.y"
 { yyval.keyword = "fn"; }
 break;
 case 74:
-#line 152 "parse.y"
+#line 150 "parse.y"
 { yyval.keyword = "else"; }
 break;
 case 75:
-#line 153 "parse.y"
+#line 151 "parse.y"
 { yyval.keyword = "case"; }
 break;
 case 76:
-#line 154 "parse.y"
+#line 152 "parse.y"
 { yyval.keyword = "~"; }
 break;
 case 77:
-#line 155 "parse.y"
+#line 153 "parse.y"
 { yyval.keyword = "!"; }
 break;
 case 78:
-#line 156 "parse.y"
+#line 154 "parse.y"
 { yyval.keyword = "@"; }
 break;
 case 79:
-#line 158 "parse.y"
+#line 156 "parse.y"
 { yyval.node = NULL; }
 break;
 case 80:
-#line 159 "parse.y"
+#line 157 "parse.y"
 { yyval.node = (yyvsp[-1].node != NULL ? (yyvsp[0].node != NULL ? mk(nLappend,yyvsp[-1].node,yyvsp[0].node) : yyvsp[-1].node) : yyvsp[0].node); }
 break;
 case 81:
-#line 161 "parse.y"
+#line 159 "parse.y"
 { yyval.node = NULL; }
 break;
 case 83:
-#line 163 "parse.y"
+#line 161 "parse.y"
 { yyval.node = (yyvsp[-1].node != NULL ? (yyvsp[0].node != NULL ? mk(nLappend,yyvsp[-1].node,yyvsp[0].node) : yyvsp[-1].node) : yyvsp[0].node); }
 break;
-#line 1015 "y.tab.c"
+#line 998 "y.tab.c"
     }
     yyssp -= yym;
     yystate = *yyssp;
