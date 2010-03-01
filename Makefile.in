@@ -1,6 +1,6 @@
-# Makefile.in generated automatically by automake 1.3e from Makefile.am
+# Makefile.in generated automatically by automake 1.4a from Makefile.am
 
-# Copyright (C) 1994, 1995, 1996, 1997, 1998 Free Software Foundation, Inc.
+# Copyright (C) 1994, 1995-8, 1999 Free Software Foundation, Inc.
 # This Makefile.in is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
 # with or without modifications, as long as this notice is preserved.
@@ -133,9 +133,9 @@ MANS = $(man_MANS)
 NROFF = nroff
 HEADERS =  $(noinst_HEADERS)
 
-DIST_COMMON =  README AUTHORS COPYING ChangeLog INSTALL Makefile.am \
-Makefile.in NEWS acconfig.h acinclude.m4 aclocal.m4 config.h.in \
-configure configure.in install-sh missing mkinstalldirs stamp-h.in
+DIST_COMMON =  README ./stamp-h.in AUTHORS COPYING ChangeLog INSTALL \
+Makefile.am Makefile.in NEWS acconfig.h acinclude.m4 aclocal.m4 \
+config.h.in configure configure.in install-sh missing mkinstalldirs
 
 
 DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
@@ -164,16 +164,23 @@ $(srcdir)/configure: $(srcdir)/configure.in $(ACLOCAL_M4) $(CONFIGURE_DEPENDENCI
 	cd $(srcdir) && $(AUTOCONF)
 
 config.h: stamp-h
-	@:
+	@if test ! -f $@; then \
+		rm -f stamp-h; \
+		$(MAKE) stamp-h; \
+	else :; fi
 stamp-h: $(srcdir)/config.h.in $(top_builddir)/config.status
 	cd $(top_builddir) \
 	  && CONFIG_FILES= CONFIG_HEADERS=config.h \
 	     $(SHELL) ./config.status
-	@echo timestamp > stamp-h
+	@echo timestamp > stamp-h 2> /dev/null
 $(srcdir)/config.h.in: $(srcdir)/stamp-h.in
+	@if test ! -f $@; then \
+		rm -f $(srcdir)/stamp-h.in; \
+		$(MAKE) $(srcdir)/stamp-h.in; \
+	else :; fi
 $(srcdir)/stamp-h.in: $(top_srcdir)/configure.in $(ACLOCAL_M4) acconfig.h
 	cd $(top_srcdir) && $(AUTOHEADER)
-	@echo timestamp > $(srcdir)/stamp-h.in
+	@echo timestamp > $(srcdir)/stamp-h.in 2> /dev/null
 
 mostlyclean-hdr:
 
@@ -366,7 +373,7 @@ distdir: $(DISTFILES)
 	  else \
 	    test -f $(distdir)/$$file \
 	    || ln $$d/$$file $(distdir)/$$file 2> /dev/null \
-	    || cp -p $$d/$$file $(distdir)/$$file; \
+	    || cp -p $$d/$$file $(distdir)/$$file || :; \
 	  fi; \
 	done
 builtins.o: builtins.c rc.h config.h proto.h addon.h jbwrap.h rlimit.h \
@@ -506,8 +513,7 @@ trip: rc tripping
 	./rc -p < $(srcdir)/trip.rc
 
 install-exec-hook:
-@AMC_HISTORY_TRUE@	$(LN) history - ;\
-@AMC_HISTORY_TRUE@	$(INSTALL_PROGRAM) - $(bindir) ;\
+@AMC_HISTORY_TRUE@	$(INSTALL_PROGRAM) history $(bindir)/- ;\
 @AMC_HISTORY_TRUE@	rm -f $(bindir)/--;  $(LN) $(bindir)/- $(bindir)/-- ;\
 @AMC_HISTORY_TRUE@	rm -f $(bindir)/-p;  $(LN) $(bindir)/- $(bindir)/-p ;\
 @AMC_HISTORY_TRUE@	rm -f $(bindir)/--p; $(LN) $(bindir)/- $(bindir)/--p
