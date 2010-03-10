@@ -1,0 +1,15 @@
+config.log
+config.h
+config.status
+Makefile
+*.o
+.deps/
+rc
+history
+mksignal
+mkstatval
+tripping
+sigmsgs.c
+sigmsgs.h
+stamp-h1
+statval.h
