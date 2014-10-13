@@ -13,3 +13,6 @@ sigmsgs.c
 sigmsgs.h
 stamp-h1
 statval.h
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
